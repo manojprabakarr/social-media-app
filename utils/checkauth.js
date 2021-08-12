@@ -7,7 +7,7 @@ module.exports = (context) => {
     const token = authHeader.split("Bearer ")[1];
     if (token) {
       try {
-        const user = jwt.verify(token, "secrets");
+        const user = jwt.verify(token, process.env.JWTSECRET);
 
         return user;
       } catch (err) {

@@ -12,7 +12,7 @@ function generateToken(user) {
       email: user.email,
       username: user.username,
     },
-    "secrets",
+    process.env.JWTSECRET,
     { expiresIn: "1h" }
   );
 }
