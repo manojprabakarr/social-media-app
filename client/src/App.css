@@ -1,0 +1,15 @@
+.register {
+  line-height: 2em;
+}
+.login {
+  line-height: 2em;
+}
+#register-header {
+  color: darkblue;
+  margin-bottom: 20px;
+}
+.btndata {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
