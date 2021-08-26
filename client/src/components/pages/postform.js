@@ -2,15 +2,36 @@ import React, { useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { Fetch_Posts_Query } from "../../utils/graphql";
 
 function Postform() {
-  const [post, setpost] = useState({ msg: "" });
-  const { msg } = post;
+  const [values, setpost] = useState({ body: "" });
+  const { body } = values;
 
-  const onchange = (e) => setpost({ ...post, [e.target.name]: e.target.value });
+  const onchange = (e) =>
+    setpost({ ...values, [e.target.name]: e.target.value });
+
+  const [createPost, { error }] = useMutation(POST_FORM, {
+    variables: values,
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: Fetch_Posts_Query,
+        data: {
+          getPosts: [result.data.createPost, ...data.getPosts],
+        },
+      });
+      values.body = "";
+    },
+    onError() {
+      if (error) {
+        console.log(error);
+      }
+    },
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
+    createPost();
   };
   return (
     <div>
@@ -24,7 +45,7 @@ function Postform() {
           <Form.Input
             placeholder="Say something!"
             name="body"
-            value={msg}
+            value={body}
             onChange={onchange}
             style={{ width: "320px" }}
             type="text"

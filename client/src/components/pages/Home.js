@@ -3,6 +3,7 @@ import { Grid, Label, Container, Transition } from "semantic-ui-react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Post from "./postdata";
+import Postform from "./postform";
 import { AuthContext } from "../../context/authContext";
 
 function Home() {
@@ -59,8 +60,7 @@ function Home() {
                   backgroundColor: "white",
                   marginRight: "10px",
                   borderRadius: "999px",
-                  // borderTopLeftRadius: "999px",
-                  // borderBottomLeftRadius: "999px",
+
                   padding: "12px",
                 }}
               >
@@ -75,7 +75,11 @@ function Home() {
           </Container>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Row>Postform</Grid.Row>
+          {user && (
+            <Grid.Row>
+              <Postform />
+            </Grid.Row>
+          )}
         </Grid.Row>
         <Grid.Row>
           {!loading && (

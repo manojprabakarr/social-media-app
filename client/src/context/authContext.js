@@ -24,7 +24,7 @@ function authReducer(state, action) {
     case "LOGIN":
       return {
         ...state,
-        user: action.payload,
+        user: action.user,
       };
 
     case "LOGOUT":

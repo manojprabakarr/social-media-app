@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const Fetch_Posts_Query = gql`
+export const Fetch_Posts_Query = gql`
   query getposts {
     getposts {
       id
