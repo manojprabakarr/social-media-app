@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Label, Container, Transition } from "semantic-ui-react";
+import { useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import Post from "./postdata";
+import { AuthContext } from "../../context/authContext";
 
 function Home() {
+  const { user } = useContext(AuthContext);
+  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+  let posts = [];
+  if (data) {
+    posts = data.getPosts;
+  }
   const peoples = [
     {
       image: "https://react.semantic-ui.com/images/avatar/small/stevie.jpg",
@@ -65,20 +75,44 @@ function Home() {
           </Container>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Row>
-            <Postform />
-          </Grid.Row>
+          <Grid.Row>Postform</Grid.Row>
         </Grid.Row>
         <Grid.Row>
-          <Transition.Group>
-            <Grid.Column>
-              <h1>Post</h1>
-            </Grid.Column>
-          </Transition.Group>
+          {!loading && (
+            <Transition.Group>
+              {posts &&
+                posts.map((post) => (
+                  <Grid.Column>
+                    <Post post={post} />
+                  </Grid.Column>
+                ))}
+            </Transition.Group>
+          )}
         </Grid.Row>
       </Grid>
     </div>
   );
 }
 
+const FETCH_POSTS_QUERY = gql`
+  {
+    getPosts {
+      id
+      body
+      createdAt
+      username
+      likeCount
+      likes {
+        username
+      }
+      commentCount
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+    }
+  }
+`;
 export default Home;

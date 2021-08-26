@@ -2,7 +2,7 @@ module.exports.validateRegister = (
   username,
   password,
   email,
-  confirmPassword
+  confirmpassword
 ) => {
   const errors = {};
 
@@ -16,8 +16,8 @@ module.exports.validateRegister = (
 
   if (password.trim() == "") {
     errors.password = "Password is required";
-  } else if (!password == confirmPassword) {
-    errors.confirmPassword = "Password doest not matches";
+  } else if (!password == confirmpassword) {
+    errors.confirmpassword = "Password doest not matches";
   }
 
   return {
@@ -29,7 +29,7 @@ module.exports.validateRegister = (
 module.exports.validateLogin = (username, password) => {
   const errors = {};
   if (username.trim() == "") {
-    errrors.username = "Username is required";
+    errors.username = "Username is required";
   }
 
   if (password.trim() == "") {

@@ -49,23 +49,24 @@ module.exports = {
     },
     async register(
       _,
-      { registerInput: { username, email, password, confirmPassword } }
+      { registerInput: { username, email, password, confirmpassword } }
     ) {
       const { valid, errors } = validateRegister(
         username,
         email,
         password,
-        confirmPassword
+        confirmpassword
       );
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
 
       const user = await User.findOne({ username });
-      if (user) {
-        throw new UserInputError("Username already exists", {
+      const useremail = await User.findOne({ email });
+      if (user || useremail) {
+        throw new UserInputError("Username or email already exists", {
           errors: {
-            username: "Username already exists",
+            username: "Username or email already exists",
           },
         });
       }
